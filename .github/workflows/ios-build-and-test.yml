@@ -1,0 +1,53 @@
+name: My Workflow
+
+on: 
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: macOS-latest
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+        
+      - name: List files
+        run: |
+          echo "📋 Listing files..."
+          ls
+
+      - name: List Available Xcode Versions
+        run: |
+          echo "🕵🏻‍♂️ Listing available xcode versions"
+          ls /Applications | grep Xcode
+
+      - name: Choose xcode version
+        run: |
+          echo "🛠️ Choosing xcode version..."
+          sudo xcode-select -switch /Applications/Xcode_16.2.app
+
+      - name: Verify Xcode Version    
+        run: |
+          echo "✅ Verifying xcode version..."
+          xcodebuild -version
+  
+      - name: Build project
+        run: |
+          echo "🏗️ Building project..."
+          xcodebuild clean build \
+          -project ./CryptoApp/CryptoApp.xcodeproj \
+          -scheme CryptoApp \
+          -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+          CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+
+      - name: Run Unit tests
+        run: |
+            echo "🧐 Testing project (skiping UITests since it takes a lot of time)..."
+            xcodebuild test \
+            -project ./CryptoApp/CryptoApp.xcodeproj \
+            -scheme CryptoApp \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -skip-testing:CryptoAppUITests \
+            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
