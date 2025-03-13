@@ -1,2 +1,9 @@
 # CryptoApp
-iOS project where cryptocurrencies show their current values in the market.
+Generally speaking this app shows a grid of cryptocurrencies and their current values in Stock Market.
+
+## Features
+• Capacity to change between dark / light mode via SFSymbol located at corner right top.
+• Crypto details after clicking on any tiles from main Grid.
+• Pull & refresh data from main Grid.
+• Persistance for favorited cryptocurrency.
+• Filter for cryptocurrencies; since just 20 items are displayed, one more api is used (search=query) in order to find missed item.
