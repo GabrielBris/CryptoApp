@@ -10,10 +10,21 @@
 import Foundation
 
 protocol MainViewModelProtocol {
-    
+    var title: String { get }
+
+    func getColumns(for size: CGSize) -> Int
+    func getDarkControlIcon(for state: Bool) -> String
 }
 
 @Observable
 class MainViewModel: MainViewModelProtocol {
+    private(set) var title: String = "CryptoApp"
     
+    func getColumns(for size: CGSize) -> Int {
+        size.width > size.height ? 4 : 2
+    }
+
+    func getDarkControlIcon(for isActivated: Bool) -> String {
+        isActivated ? "sun.max.fill" : "moon.fill"
+    }
 }
