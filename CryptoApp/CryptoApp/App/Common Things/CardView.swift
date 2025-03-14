@@ -22,30 +22,7 @@ struct CardView: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            AsyncImage(url: URL(string: icon), transaction: Transaction(animation: .easeInOut)) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                        .frame(width: 100, height: 100)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .transition(.opacity)
-                        .colorMultiply(.gray.opacity(0.1))
-                case .failure:
-                    Image(systemName: "bitcoin") // In case of error, bitcoin image will be showed by default
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(.gray.opacity(0.5))
-                        .colorMultiply(.gray.opacity(0.1))
-                @unknown default:
-                    EmptyView()
-                }
-            }
+            CryptoImage(icon: icon)
             VStack(alignment: .leading, spacing: 5) {
                 if isFavorited {
                     HStack {

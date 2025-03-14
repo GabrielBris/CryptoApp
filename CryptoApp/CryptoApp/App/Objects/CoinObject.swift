@@ -7,7 +7,7 @@
 import Foundation
 
 struct CoinObject: Codable, Identifiable {
-    var id = UUID()
+    let id = UUID()
     let identifiable: String?
     let symbol: String?
     let name: String?

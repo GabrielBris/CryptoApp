@@ -49,15 +49,15 @@ struct NeumorphicView: View {
     func shadowForUninteractiveView() -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.black.opacity(0.1), lineWidth: 1)
+                .stroke(Color.white, lineWidth: 1)
                 .blur(radius: 5)
                 .offset(x: -5, y: -5)
-                .mask(RoundedRectangle(cornerRadius: 20).fill(LinearGradient(gradient: Gradient(colors: [Color.gray]), startPoint: .topLeading, endPoint: .bottomTrailing)))
+                .mask(RoundedRectangle(cornerRadius: 20).fill(LinearGradient(gradient: Gradient(colors: [Color.gray, Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)))
             RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.black, lineWidth: 1)
                 .blur(radius: 5)
                 .offset(x: 5, y: 5)
-                .mask(RoundedRectangle(cornerRadius: 20).fill(LinearGradient(gradient: Gradient(colors: [Color.yellow]), startPoint: .topTrailing, endPoint: .bottomLeading)))
+                .mask(RoundedRectangle(cornerRadius: 20).fill(LinearGradient(gradient: Gradient(colors: [Color.black]), startPoint: .topTrailing, endPoint: .bottomLeading)))
         }
         .background(backgroundColor)
         .frame(minWidth: 150, maxWidth: .infinity, minHeight: 150, maxHeight: .infinity)

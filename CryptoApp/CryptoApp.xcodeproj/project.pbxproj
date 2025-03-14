@@ -35,6 +35,7 @@
 			membershipExceptions = (
 				"App/Common Things/CardView.swift",
 				"App/Common Things/ColorExt.swift",
+				"App/Common Things/CryptoImage.swift",
 				"App/Common Things/NetworkManager.swift",
 				"App/Common Things/NeumorphicView.swift",
 				"App/Common Things/ShimmerView.swift",
