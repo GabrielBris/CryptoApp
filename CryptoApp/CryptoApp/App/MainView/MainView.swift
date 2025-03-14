@@ -17,25 +17,14 @@ struct MainView: View {
 
     var body: some View {
         if viewModel.cryptocoins.isEmpty {
-            ContentUnavailableView(label: {
-                Label(viewModel.contentUnavailableData.title,
-                      systemImage: viewModel.contentUnavailableData.icon)
-            }, description: {
-                Text(viewModel.contentUnavailableData.description)
-            }, actions: {
-                Button {
-                    viewModel.refreshData()
-                } label: {
-                    Text("Retry")
-                }
-            })
+            getContentUnavailableView()
         } else {
             NavigationStack {
                 GeometryReader { geometry in
                     let columns = Array(repeating: GridItem(.flexible(), spacing: 20), count: viewModel.getColumns(for: geometry.size))
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 20) {
-                            mainRow()
+                            getMainRowView()
                         }
                         .padding(.horizontal, 20)
                     }
@@ -43,7 +32,8 @@ struct MainView: View {
                         viewModel.refreshData()
                     }
                     .searchable(text: $searchableText) {
-                        filteredRow()
+                        getFilteredRowView()
+                            .listRowSeparator(.hidden)
                     }
                     .onChange(of: searchableText) { _, _ in
                         viewModel.filter(for: searchableText)
@@ -71,24 +61,36 @@ private extension MainView {
             .animation(.easeInOut(duration: 0.5), value: isDarkModeActivated)
     }
     
-    func filteredRow() -> some View {
+    func getFilteredRowView() -> some View {
         ForEach(viewModel.filteredResults) { coin in
             NavigationLink(destination: DetailView()) {
-                Text(coin.name ?? "")
-                    .frame(minWidth: 150, maxWidth: .infinity, minHeight: 150, maxHeight: .infinity)
-                    .background(Color.green)
+                NeumorphicView()
+                    .padding(.vertical, 10)
             }
         }
     }
     
-    func mainRow() -> some View {
+    func getMainRowView() -> some View {
         ForEach(viewModel.cryptocoins) { coin in
             NavigationLink(destination: DetailView()) {
-                Text(coin.name ?? "")
-                    .frame(minWidth: 150, maxWidth: .infinity, minHeight: 150, maxHeight: .infinity)
-                    .background(Color.green)
+                NeumorphicView()
             }
         }
+    }
+    
+    func getContentUnavailableView() -> some View {
+        ContentUnavailableView(label: {
+            Label(viewModel.contentUnavailableData.title,
+                  systemImage: viewModel.contentUnavailableData.icon)
+        }, description: {
+            Text(viewModel.contentUnavailableData.description)
+        }, actions: {
+            Button {
+                viewModel.refreshData()
+            } label: {
+                Text("Retry")
+            }
+        })
     }
 }
 
