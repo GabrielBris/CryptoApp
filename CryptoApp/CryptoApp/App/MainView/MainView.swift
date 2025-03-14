@@ -12,14 +12,14 @@ import SwiftUI
 struct MainView: View {
     @State private var viewModel: MainViewModelProtocol = MainViewModel()
     @Environment(\.colorScheme) private var colorScheme
-
+    
     @State private var isDarkModeActivated = false
     @State private var searchableText: String = ""
     
     private var backgroundColor: Color {
         colorScheme == .dark ? .neumorphicDark() : .neumorphicLight()
     }
-
+    
     var body: some View {
         if viewModel.shouldShowContentUnavailable {
             getContentUnavailableView()
@@ -80,12 +80,13 @@ private extension MainView {
     
     func getRowView(sourceOfTruth: [CoinObject]) -> some View {
         ForEach(sourceOfTruth) { coin in
-            NavigationLink(destination: DetailView()) {
+            NavigationLink(destination: DetailView(coinObject: binding(for: coin))) {
                 NeumorphicView()
                     .overlay {
                         CardView(currentPrice: "\(coin.current_price ?? 0.0)",
                                  date: coin.last_updated ?? "",
                                  icon: coin.image ?? "",
+                                 isFavorited: coin.isFavorited,
                                  name: coin.name ?? "",
                                  symbol: coin.symbol ?? "")
                     }
@@ -98,7 +99,7 @@ private extension MainView {
             ShimmerView(geometryProxy: geometryProxy)
         }
     }
-
+    
     func getContentUnavailableView() -> some View {
         ContentUnavailableView(label: {
             Label(viewModel.contentUnavailableData.title,
@@ -112,6 +113,13 @@ private extension MainView {
                 Text("Retry")
             }
         })
+    }
+    
+    func binding(for coin: CoinObject) -> Binding<CoinObject> {
+        guard let index = viewModel.cryptocoins.firstIndex(where: { $0.id == coin.id }) else {
+            fatalError("Object not found")
+        }
+        return $viewModel.cryptocoins[index]
     }
 }
 

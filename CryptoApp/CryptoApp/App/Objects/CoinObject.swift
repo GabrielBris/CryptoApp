@@ -20,6 +20,8 @@ struct CoinObject: Codable, Identifiable {
     let price_change_24h: Double?
     let last_updated: String?
     
+    var isFavorited: Bool = false
+    
     enum CodingKeys: String, CodingKey, Codable {
         case identifiable = "id"
         case symbol

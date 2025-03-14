@@ -10,7 +10,9 @@
 import SwiftUI
 
 struct DetailView: View {
-    var viewModel: DetailViewModel!
+    @Binding var coinObject: CoinObject
+
+    @State private var viewModel: DetailViewViewModelProtocol = DetailViewModel()
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -19,10 +21,41 @@ struct DetailView: View {
     }
 
     var body: some View {
-        Text("Howdy there!")
+        VStack {
+            Text("Howdy there!")
+        }
+        .navigationTitle(coinObject.name ?? "Detail")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                getFavoritedButton()
+            }
+        }
+    }
+}
+
+private extension DetailView {
+    func getFavoritedButton() -> some View {
+        Button(action: {
+            withAnimation {
+                coinObject.isFavorited.toggle()
+            }
+        }) {
+            Image(systemName: coinObject.isFavorited ? "star.fill" : "star")
+                .foregroundStyle(coinObject.isFavorited ? Color.red : Color.primary)
+        }
     }
 }
 
 #Preview {
-    DetailView()
+    DetailView(coinObject: .constant(CoinObject(identifiable: nil,
+                                                symbol: "APPL",
+                                                name: "Apple Inc",
+                                                image: "",
+                                                current_price: 4200,
+                                                market_cap: 5000,
+                                                total_volume: 1000000,
+                                                high_24h: 4800,
+                                                low_24h: 3950,
+                                                price_change_24h: 4000,
+                                                last_updated: "")))
 }

@@ -11,7 +11,7 @@ import Foundation
 
 protocol MainViewModelProtocol {
     var contentUnavailableData: (title: String, icon: String, description: String) { get }
-    var cryptocoins: [CoinObject] { get }
+    var cryptocoins: [CoinObject] { get set }
     var filteredResults: [CoinObject] { get }
     var isLoading: Bool { get }
     var shouldShowContentUnavailable: Bool { get }
@@ -26,11 +26,12 @@ protocol MainViewModelProtocol {
 @Observable
 class MainViewModel: MainViewModelProtocol {
     private(set) var contentUnavailableData = (title: "Ooops, something went wrong", icon: "flame", description: "Looks like there is no data to be displayed")
-    private(set) var cryptocoins: [CoinObject]
     private(set) var filteredResults: [CoinObject] = []
     private(set) var isLoading: Bool = true
     private(set) var shouldShowContentUnavailable: Bool = false
     private(set) var title: String
+    
+    var cryptocoins: [CoinObject]
     
     init(title: String = "CryptoApp", cryptocoins: [CoinObject] = []) {
         self.title = title

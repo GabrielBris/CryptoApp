@@ -14,6 +14,7 @@ struct CardView: View {
     var date: String
 
     let icon: String
+    let isFavorited: Bool
     let name: String
     let symbol: String
     
@@ -46,10 +47,12 @@ struct CardView: View {
                 }
             }
             VStack(alignment: .leading, spacing: 5) {
-                HStack {
-                    Spacer()
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(Color.yellow)
+                if isFavorited {
+                    HStack {
+                        Spacer()
+                        Image(systemName: "star.fill")
+                            .foregroundStyle(Color.yellow)
+                    }
                 }
                 HStack(alignment: .lastTextBaseline) {
                     Text(name)
@@ -82,6 +85,7 @@ struct CardView: View {
     CardView(currentPrice: "5000",
              date: "March 13, 2025 10:00",
              icon: "",
+             isFavorited: false,
              name: "APPLE INC",
              symbol: "APPL")
 }

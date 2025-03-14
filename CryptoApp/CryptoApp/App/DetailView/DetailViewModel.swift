@@ -13,6 +13,7 @@ protocol DetailViewViewModelProtocol {
     
 }
 
-class DetailViewModel: ObservableObject, DetailViewViewModelProtocol {
+@Observable
+class DetailViewModel: DetailViewViewModelProtocol {
     
 }
