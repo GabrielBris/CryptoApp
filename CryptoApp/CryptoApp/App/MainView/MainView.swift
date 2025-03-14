@@ -49,10 +49,16 @@ struct MainView: View {
                         viewModel.refreshData()
                     }
                     .searchable(text: $searchableText) {
-                        
+                        ForEach(viewModel.filteredResults) { coin in
+                            NavigationLink(destination: DetailView()) {
+                                Text(coin.name ?? "")
+                                    .frame(minWidth: 150, maxWidth: .infinity, minHeight: 150, maxHeight: .infinity)
+                                    .background(Color.green)
+                            }
+                        }
                     }
-                    .onChange(of: searchableText) { oldValue, newValue in
-                        
+                    .onChange(of: searchableText) { _, _ in
+                        viewModel.filter(for: searchableText)
                     }
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {

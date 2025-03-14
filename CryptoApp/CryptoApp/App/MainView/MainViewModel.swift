@@ -10,10 +10,12 @@
 import Foundation
 
 protocol MainViewModelProtocol {
-    var cryptocoins: [CoinObject] { get }
-    var title: String { get }
     var contentUnavailableData: (title: String, icon: String, description: String) { get }
+    var cryptocoins: [CoinObject] { get }
+    var filteredResults: [CoinObject] { get }
+    var title: String { get }
 
+    func filter(for text: String)
     func getColumns(for size: CGSize) -> Int
     func getDarkControlIcon(for state: Bool) -> String
     func refreshData()
@@ -21,9 +23,10 @@ protocol MainViewModelProtocol {
 
 @Observable
 class MainViewModel: MainViewModelProtocol {
-    private(set) var cryptocoins: [CoinObject]
-    private(set) var title: String
     private(set) var contentUnavailableData = (title: "Ooops, something went wrong", icon: "flame", description: "Looks like there is no data to be displayed")
+    private(set) var cryptocoins: [CoinObject]
+    private(set) var filteredResults: [CoinObject] = []
+    private(set) var title: String
     
     init(title: String = "CryptoApp", cryptocoins: [CoinObject] = []) {
         self.title = title
@@ -34,6 +37,12 @@ class MainViewModel: MainViewModelProtocol {
         }
     }
     
+    func filter(for text: String) {
+        filteredResults = cryptocoins.filter { coin in
+            coin.name?.hasPrefix(text) ?? false
+        }
+    }
+
     func getColumns(for size: CGSize) -> Int {
         size.width > size.height ? 4 : 2
     }
