@@ -32,7 +32,7 @@ struct MainView: View {
                     .padding(.horizontal, 20)
                 }
                 .refreshable {
-                    print("refreshing...")
+                    viewModel.refreshData()
                 }
                 .searchable(text: $searchableText) {
                     
@@ -42,8 +42,7 @@ struct MainView: View {
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            isDarkModeActivated.toggle()
+                        Button { isDarkModeActivated.toggle()
                         } label: { darkControl() }
                     }
                 }
