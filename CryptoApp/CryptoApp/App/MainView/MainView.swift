@@ -21,7 +21,7 @@ struct MainView: View {
     }
 
     var body: some View {
-        if viewModel.cryptocoins.isEmpty {
+        if viewModel.shouldShowContentUnavailable {
             getContentUnavailableView()
                 .background(backgroundColor)
         } else {
@@ -30,10 +30,15 @@ struct MainView: View {
                     let columns = Array(repeating: GridItem(.flexible(), spacing: 20), count: viewModel.getColumns(for: geometry.size))
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 20) {
-                            getMainRowView()
+                            if viewModel.isLoading {
+                                getLoadingRows(for: geometry)
+                            } else {
+                                getMainRowView()
+                            }
                         }
                         .padding(.horizontal, 20)
                     }
+                    .scrollDisabled(viewModel.isLoading)
                     .refreshable {
                         viewModel.refreshData()
                     }
@@ -89,6 +94,12 @@ private extension MainView {
         }
     }
     
+    func getLoadingRows(for geometryProxy: GeometryProxy) -> some View {
+        ForEach((1...20), id: \.self) { _ in
+            ShimmerView(geometryProxy: geometryProxy)
+        }
+    }
+
     func getContentUnavailableView() -> some View {
         ContentUnavailableView(label: {
             Label(viewModel.contentUnavailableData.title,
