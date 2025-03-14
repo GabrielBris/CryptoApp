@@ -90,6 +90,13 @@ private extension MainView {
         ForEach(viewModel.cryptocoins) { coin in
             NavigationLink(destination: DetailView()) {
                 NeumorphicView()
+                    .overlay {
+                        CardView(currentPrice: "\(coin.current_price ?? 0.0)",
+                                 date: coin.last_updated ?? "",
+                                 icon: coin.image ?? "",
+                                 name: coin.name ?? "",
+                                 symbol: coin.symbol ?? "")
+                    }
             }
         }
     }
