@@ -41,7 +41,7 @@ private extension DetailView {
             }
         }) {
             Image(systemName: coinObject.isFavorited ? "star.fill" : "star")
-                .foregroundStyle(coinObject.isFavorited ? Color.red : Color.primary)
+                .foregroundStyle(coinObject.isFavorited ? Color.yellow : Color.yellow)
         }
     }
 }

@@ -81,7 +81,7 @@ private extension MainView {
     func getRowView(sourceOfTruth: [CoinObject]) -> some View {
         ForEach(sourceOfTruth) { coin in
             NavigationLink(destination: DetailView(coinObject: binding(for: coin))) {
-                NeumorphicView()
+                NeumorphicView(isInteractive: true)
                     .overlay {
                         CardView(currentPrice: "\(coin.current_price ?? 0.0)",
                                  date: coin.last_updated ?? "",
