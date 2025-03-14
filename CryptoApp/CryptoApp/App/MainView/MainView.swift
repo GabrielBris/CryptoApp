@@ -11,13 +11,19 @@ import SwiftUI
 
 struct MainView: View {
     @State private var viewModel: MainViewModelProtocol = MainViewModel()
+    @Environment(\.colorScheme) private var colorScheme
 
     @State private var isDarkModeActivated = false
     @State private var searchableText: String = ""
+    
+    private var backgroundColor: Color {
+        colorScheme == .dark ? .neumorphicDark() : .neumorphicLight()
+    }
 
     var body: some View {
         if viewModel.cryptocoins.isEmpty {
             getContentUnavailableView()
+                .background(backgroundColor)
         } else {
             NavigationStack {
                 GeometryReader { geometry in
@@ -40,25 +46,30 @@ struct MainView: View {
                     }
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            Button { isDarkModeActivated.toggle()
-                            } label: { darkControl() }
+                            getDarkControlView()
                         }
                     }
                     .navigationTitle(viewModel.title)
                 }
+                .background(backgroundColor)
             }
         }
     }
 }
 
 private extension MainView {
-    func darkControl() -> some View {
-        Image(systemName: viewModel.getDarkControlIcon(for: isDarkModeActivated))
-            .font(.system(size: 30))
-            .padding()
-            .foregroundStyle(.yellow)
-            .rotationEffect(.degrees(isDarkModeActivated ? 360 : 0))
-            .animation(.easeInOut(duration: 0.5), value: isDarkModeActivated)
+    func getDarkControlView() -> some View {
+        Button {
+            isDarkModeActivated.toggle()
+        } label: {
+            Image(systemName: viewModel.getDarkControlIcon(for: isDarkModeActivated))
+                .font(.system(size: 30))
+                .padding()
+                .foregroundStyle(.yellow)
+                .rotationEffect(.degrees(isDarkModeActivated ? 360 : 0))
+                .animation(.easeInOut(duration: 0.5), value: isDarkModeActivated)
+        }
+        .preferredColorScheme(isDarkModeActivated ? .dark : .light)
     }
     
     func getFilteredRowView() -> some View {

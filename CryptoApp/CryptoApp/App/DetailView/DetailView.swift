@@ -10,8 +10,13 @@
 import SwiftUI
 
 struct DetailView: View {
-
     var viewModel: DetailViewModel!
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    private var backgroundColor: Color {
+        colorScheme == .dark ? .neumorphicDark() : .neumorphicLight()
+    }
 
     var body: some View {
         Text("Howdy there!")

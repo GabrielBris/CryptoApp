@@ -33,6 +33,7 @@
 		90BB28822D83CC7500DD0790 /* Exceptions for "CryptoApp" folder in "CryptoAppTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"App/Common Things/ColorExt.swift",
 				"App/Common Things/NetworkManager.swift",
 				"App/Common Things/NeumorphicView.swift",
 			);

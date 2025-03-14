@@ -7,8 +7,12 @@
 import SwiftUI
 
 struct NeumorphicView: View {
-    private let backgroundColor = Color(.systemGray6)
     @State private var isPressed = false
+    @Environment(\.colorScheme) var colorScheme
+    
+    private var backgroundColor: Color {
+        colorScheme == .dark ? .neumorphicDark() : .neumorphicLight()
+    }
 
     var body: some View {
         let shadowAtTheTopLeft = shadowAtTheTopLeft()
