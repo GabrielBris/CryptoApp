@@ -33,7 +33,7 @@ struct MainView: View {
                             if viewModel.isLoading {
                                 getLoadingRows(for: geometry)
                             } else {
-                                getMainRowView()
+                                getRowView(sourceOfTruth: viewModel.cryptocoins)
                             }
                         }
                         .padding(.horizontal, 20)
@@ -43,8 +43,9 @@ struct MainView: View {
                         viewModel.refreshData()
                     }
                     .searchable(text: $searchableText) {
-                        getFilteredRowView()
+                        getRowView(sourceOfTruth: viewModel.filteredResults)
                             .listRowSeparator(.hidden)
+                            .padding(.vertical, 10)
                     }
                     .onChange(of: searchableText) { _, _ in
                         viewModel.filter(for: searchableText)
@@ -77,17 +78,8 @@ private extension MainView {
         .preferredColorScheme(isDarkModeActivated ? .dark : .light)
     }
     
-    func getFilteredRowView() -> some View {
-        ForEach(viewModel.filteredResults) { coin in
-            NavigationLink(destination: DetailView()) {
-                NeumorphicView()
-                    .padding(.vertical, 10)
-            }
-        }
-    }
-    
-    func getMainRowView() -> some View {
-        ForEach(viewModel.cryptocoins) { coin in
+    func getRowView(sourceOfTruth: [CoinObject]) -> some View {
+        ForEach(sourceOfTruth) { coin in
             NavigationLink(destination: DetailView()) {
                 NeumorphicView()
                     .overlay {

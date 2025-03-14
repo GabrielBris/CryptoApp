@@ -59,20 +59,22 @@ struct CardView: View {
                         .font(.callout)
                         .foregroundStyle(Color(.systemGray))
                 }
-                HStack {
-                    Spacer()
+                VStack(alignment: .trailing) {
+                    HStack {
+                        Spacer()
+                    }
                     Text("$\(currentPrice)")
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundStyle(colorScheme == .dark ? .white : .black)
+                    Spacer()
+                    Text(date)
+                        .font(.footnote)
+                        .foregroundStyle(Color(.systemGray))
                 }
-                Spacer()
-                Text(date)
-                    .font(.footnote)
-                    .foregroundStyle(Color(.systemGray))
             }
-            .padding()
         }
+        .padding(10)
     }
 }
 
