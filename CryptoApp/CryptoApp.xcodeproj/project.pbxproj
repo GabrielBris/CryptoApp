@@ -29,9 +29,22 @@
 		90C6685B2D8387870026C08E /* CryptoAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CryptoAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		90BB28822D83CC7500DD0790 /* Exceptions for "CryptoApp" folder in "CryptoAppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"App/Common Things/NetworkManager.swift",
+			);
+			target = 90C668502D8387870026C08E /* CryptoAppTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		90C668432D8387850026C08E /* CryptoApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				90BB28822D83CC7500DD0790 /* Exceptions for "CryptoApp" folder in "CryptoAppTests" target */,
+			);
 			path = CryptoApp;
 			sourceTree = "<group>";
 		};

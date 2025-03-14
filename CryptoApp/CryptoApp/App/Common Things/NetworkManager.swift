@@ -33,6 +33,7 @@ class NetworkManager {
         case emptyData
         case invalidURL
         case serverError
+        case invalidResponse
     }
     
     func fetchData<G: Codable>(for url: URL?, completion: @escaping (Result<G, Error>) -> Void) {
