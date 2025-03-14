@@ -10,12 +10,20 @@ import XCTest
 
 final class CryptoAppTests: XCTestCase {
     
+    var viewModel: MainViewModel?
+    
     override func setUp() {
         super.setUp()
+        viewModel = MainViewModel(title: "Test", cryptocoins: [
+            CoinObject(identifiable: nil, symbol: "test1", name: "Test1", image: nil, current_price: nil, market_cap: nil, total_volume: nil, high_24h: nil, low_24h: nil, price_change_24h: nil, last_updated: nil),
+            CoinObject(identifiable: nil, symbol: "test2", name: "Test2", image: nil, current_price: nil, market_cap: nil, total_volume: nil, high_24h: nil, low_24h: nil, price_change_24h: nil, last_updated: nil),
+            CoinObject(identifiable: nil, symbol: "test2", name: "Test3", image: nil, current_price: nil, market_cap: nil, total_volume: nil, high_24h: nil, low_24h: nil, price_change_24h: nil, last_updated: nil)
+        ])
     }
     
     override func tearDown() {
         super.tearDown()
+        viewModel = nil
     }
 
     func testEndpointURLs() {
@@ -168,5 +176,42 @@ final class CryptoAppTests: XCTestCase {
         }
         
         waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testFiltering() {
+        viewModel?.filter(for: "Test")
+        XCTAssertEqual(viewModel?.filteredResults.count, 3)
+        
+        viewModel?.filter(for: "Test1")
+        XCTAssertEqual(viewModel?.filteredResults.count, 1)
+        
+        viewModel?.filter(for: " ")
+        XCTAssertEqual(viewModel?.filteredResults.count, 0)
+    }
+    
+    func testColumnsRelatedToDevidePosition() {
+        let cols1 = viewModel?.getColumns(for: CGSize(width: 300, height: 50))
+        let cols2 = viewModel?.getColumns(for: CGSize(width: 50, height: 300))
+        
+        guard let cols1, let cols2 else {
+            XCTFail("Unexpected nil")
+            return
+        }
+        
+        XCTAssertEqual(cols1, 4)
+        XCTAssertEqual(cols2, 2)
+    }
+    
+    func testDarkControlIcons() {
+        let darkModeIcon = viewModel?.getDarkControlIcon(for: true)
+        let lightModeIcon = viewModel?.getDarkControlIcon(for: false)
+        
+        guard let darkModeIcon, let lightModeIcon else {
+            XCTFail("Unexpected nil")
+            return
+        }
+        
+        XCTAssertEqual(darkModeIcon, "sun.max.fill")
+        XCTAssertEqual(lightModeIcon, "moon.stars.fill")
     }
 }
