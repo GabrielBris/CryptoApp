@@ -57,7 +57,8 @@ class MainViewModel: MainViewModelProtocol {
             case .success(let data):
                 self?.cryptocoins = data
             case .failure(let error):
-                print(error.localizedDescription)
+                print("Unexpected error: ", error.localizedDescription)
+                self?.cryptocoins = []
             }
         }
     }

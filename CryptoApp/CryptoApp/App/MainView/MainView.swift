@@ -35,13 +35,7 @@ struct MainView: View {
                     let columns = Array(repeating: GridItem(.flexible(), spacing: 20), count: viewModel.getColumns(for: geometry.size))
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 20) {
-                            ForEach(viewModel.cryptocoins) { coin in
-                                NavigationLink(destination: DetailView()) {
-                                    Text(coin.name ?? "")
-                                        .frame(minWidth: 150, maxWidth: .infinity, minHeight: 150, maxHeight: .infinity)
-                                        .background(Color.green)
-                                }
-                            }
+                            mainRow()
                         }
                         .padding(.horizontal, 20)
                     }
@@ -49,13 +43,7 @@ struct MainView: View {
                         viewModel.refreshData()
                     }
                     .searchable(text: $searchableText) {
-                        ForEach(viewModel.filteredResults) { coin in
-                            NavigationLink(destination: DetailView()) {
-                                Text(coin.name ?? "")
-                                    .frame(minWidth: 150, maxWidth: .infinity, minHeight: 150, maxHeight: .infinity)
-                                    .background(Color.green)
-                            }
-                        }
+                        filteredRow()
                     }
                     .onChange(of: searchableText) { _, _ in
                         viewModel.filter(for: searchableText)
@@ -81,6 +69,26 @@ private extension MainView {
             .foregroundStyle(.yellow)
             .rotationEffect(.degrees(isDarkModeActivated ? 360 : 0))
             .animation(.easeInOut(duration: 0.5), value: isDarkModeActivated)
+    }
+    
+    func filteredRow() -> some View {
+        ForEach(viewModel.filteredResults) { coin in
+            NavigationLink(destination: DetailView()) {
+                Text(coin.name ?? "")
+                    .frame(minWidth: 150, maxWidth: .infinity, minHeight: 150, maxHeight: .infinity)
+                    .background(Color.green)
+            }
+        }
+    }
+    
+    func mainRow() -> some View {
+        ForEach(viewModel.cryptocoins) { coin in
+            NavigationLink(destination: DetailView()) {
+                Text(coin.name ?? "")
+                    .frame(minWidth: 150, maxWidth: .infinity, minHeight: 150, maxHeight: .infinity)
+                    .background(Color.green)
+            }
+        }
     }
 }
 
